@@ -1,5 +1,5 @@
 [![CircleCI](https://circleci.com/gh/neverendingqs/serverless-default-aws-resource-attributes.svg?style=svg)](https://circleci.com/gh/neverendingqs/serverless-default-aws-resource-attributes)
-[![Coverage Status](https://coveralls.io/repos/github/neverendingqs/serverless-default-aws-resource-attributes/badge.svg?branch=master)](https://coveralls.io/github/neverendingqs/serverless-default-aws-resource-attributes?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/neverendingqs/serverless-default-aws-resource-attributes/badge.svg?branch=master)](https://coveralls.io/github/neverendingqs/serverless-default-aws-resource-attributes?branch=main)
 [![npm version](https://badge.fury.io/js/serverless-default-aws-resource-attributes.svg)](https://badge.fury.io/js/serverless-default-aws-resource-attributes)
 
 # serverless-default-aws-resource-attributes
