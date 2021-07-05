@@ -1,0 +1,37 @@
+{
+  "name": "serverless-default-aws-resource-attributes",
+  "version": "0.0.1",
+  "description": "Set default attributes a given CloudFormation resource should have based on type",
+  "main": "index.js",
+  "scripts": {
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "deploy": "publish",
+    "test": "nyc mocha test/**.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neverendingqs/serverless-default-aws-resource-attributes.git"
+  },
+  "keywords": [
+    "serverless",
+    "framework",
+    "aws"
+  ],
+  "author": "neverendingqs",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/neverendingqs/serverless-default-aws-resource-attributes/issues"
+  },
+  "homepage": "https://github.com/neverendingqs/serverless-default-aws-resource-attributes#readme",
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "mocha": "^9.0.1",
+    "nyc": "^15.1.0",
+    "publish-me-maybe": "^1.0.7",
+    "sinon": "^11.1.1"
+  },
+  "dependencies": {
+    "coveralls": "^3.1.1",
+    "lodash.merge": "^4.6.2"
+  }
+}
