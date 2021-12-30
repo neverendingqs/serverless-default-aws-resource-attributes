@@ -1,6 +1,6 @@
 {
   "name": "serverless-default-aws-resource-attributes",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "Set default attributes a given CloudFormation resource should have based on type",
   "main": "index.js",
   "scripts": {
