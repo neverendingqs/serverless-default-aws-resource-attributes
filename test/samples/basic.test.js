@@ -1,7 +1,6 @@
 const spawn = require('cross-spawn');
 
 const { expect } = require('chai');
-const sinon = require('sinon');
 
 describe('samples/basic', function() {
   ['2'].forEach(slsVersion => {
