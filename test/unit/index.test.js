@@ -9,7 +9,7 @@ describe('defaultAwsAttributes', function() {
   beforeEach(function() {
     this.sandbox = sinon.createSandbox();
 
-    this.serverless = {
+    this.service = {
       custom: {},
       provider: {
         compiledCloudFormationTemplate: {}
@@ -17,7 +17,7 @@ describe('defaultAwsAttributes', function() {
     };
     this.defaultAwsAttributes = new DefaultAwsAttributes({
       getProvider: this.sandbox.stub(),
-      service: this.serverless
+      service: this.service
     });
   });
 
@@ -68,7 +68,7 @@ describe('defaultAwsAttributes', function() {
         }
       ];
 
-      this.serverless.custom.defaultAwsAttributes = defaults
+      this.service.custom.defaultAwsAttributes = defaults
 
       this.defaultAwsAttributes.getDefaults()
         .should.deep.equal(defaults);
@@ -125,7 +125,7 @@ describe('defaultAwsAttributes', function() {
         }
       };
 
-      this.serverless.custom.defaultAwsAttributes = [
+      this.service.custom.defaultAwsAttributes = [
         {
           Type: 'AWS::S3::Bucket',
           Exclude: [
@@ -135,7 +135,7 @@ describe('defaultAwsAttributes', function() {
         }
       ];
 
-      this.serverless.provider.compiledCloudFormationTemplate.Resources = {
+      this.service.provider.compiledCloudFormationTemplate.Resources = {
         IgnoredBucket: {
           Type: 'AWS::S3::Bucket',
           Properties: {}
@@ -152,13 +152,13 @@ describe('defaultAwsAttributes', function() {
 
       this.defaultAwsAttributes.addDefaults();
 
-      this.serverless.provider.compiledCloudFormationTemplate.Resources.IgnoredBucket.Properties
+      this.service.provider.compiledCloudFormationTemplate.Resources.IgnoredBucket.Properties
         .should.not.have.property('BucketEncryption');
 
-      this.serverless.provider.compiledCloudFormationTemplate.Resources.NotABucket.Properties
+      this.service.provider.compiledCloudFormationTemplate.Resources.NotABucket.Properties
         .should.not.have.property('BucketEncryption');
 
-      this.serverless.provider.compiledCloudFormationTemplate.Resources.RegularBucket.Properties
+      this.service.provider.compiledCloudFormationTemplate.Resources.RegularBucket.Properties
         .should.deep.include(defaultProperties);
     });
   });
