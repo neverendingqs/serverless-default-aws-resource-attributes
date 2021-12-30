@@ -3,7 +3,7 @@ const sinon = require('sinon');
 
 const should = chai.should();
 
-const DefaultAwsAttributes = require('../index');
+const DefaultAwsAttributes = require('../../index');
 
 describe('defaultAwsAttributes', function() {
   beforeEach(function() {
