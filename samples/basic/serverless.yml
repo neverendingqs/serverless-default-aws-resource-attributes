@@ -1,0 +1,51 @@
+service: basic
+
+frameworkVersion: '2 || 3'
+
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  lambdaHashingVersion: 20201221
+
+plugins:
+  - ../../
+
+custom:
+  defaultAwsAttributes:
+    # Enable SSE and block public access for all S3 buckets
+    # Also set a DeletionPolicy for all S3 buckets
+    - Type: AWS::S3::Bucket
+      DeletionPolicy: Retain
+      Properties:
+        BucketEncryption:
+          ServerSideEncryptionConfiguration:
+            - ServerSideEncryptionByDefault:
+                SSEAlgorithm: AES256
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: true
+          BlockPublicPolicy: true
+          IgnorePublicAcls: true
+          RestrictPublicBuckets: true
+
+    # Add logging configuration to all S3 buckets except resource with
+    # logical ID 'LoggingBucket'
+    - Type: AWS::S3::Bucket
+      Exclude:
+        - LoggingBucket
+      Properties:
+        LoggingConfiguration:
+          DestinationBucketName:
+            Ref: LoggingBucket
+
+functions:
+  hello:
+    handler: handler.hello
+
+resources:
+  Resources:
+    ABucket:
+      Type: AWS::S3::Bucket
+    LoggingBucket:
+      Type: AWS::S3::Bucket
+

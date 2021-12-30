@@ -30,6 +30,12 @@ jobs:
           paths:
             - node_modules
 
+  samples-test:
+    executor: node
+    steps:
+      - *attach_workspace
+      - run: npm run test:samples
+
   test:
     executor: node
     steps:
@@ -60,6 +66,9 @@ workflows:
   build-test-deploy:
     jobs:
       - build
+      - samples-test:
+          requires:
+            - build
       - test:
           requires:
             - build
