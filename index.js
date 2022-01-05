@@ -7,14 +7,14 @@ const _ = {
 class DefaultAwsAttributes {
   constructor(serverless) {
     this.provider = serverless.getProvider('aws');
-    this.serverless = serverless.service;
+    this.service = serverless.service;
     this.hooks = {
-      'before:package:finalize': this.addDefaults.bind(this)
+      'aws:package:finalize:mergeCustomProviderResources': this.addDefaults.bind(this)
     };
   }
 
   getDefaults() {
-    return this.serverless.custom.defaultAwsAttributes || {};
+    return this.service.custom.defaultAwsAttributes || {};
   }
 
   mergeAttributes({ original, additional }) {
@@ -32,7 +32,7 @@ class DefaultAwsAttributes {
         {}
       );
 
-    const resources = this.serverless.resources.Resources;
+    const resources = this.service.provider.compiledCloudFormationTemplate.Resources;
 
     for(const logicalId of Object.keys(resources)) {
       const { Type } = resources[logicalId];

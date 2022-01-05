@@ -9,13 +9,15 @@ describe('defaultAwsAttributes', function() {
   beforeEach(function() {
     this.sandbox = sinon.createSandbox();
 
-    this.serverless = {
+    this.service = {
       custom: {},
-      resources: {}
+      provider: {
+        compiledCloudFormationTemplate: {}
+      },
     };
     this.defaultAwsAttributes = new DefaultAwsAttributes({
       getProvider: this.sandbox.stub(),
-      service: this.serverless
+      service: this.service
     });
   });
 
@@ -27,7 +29,7 @@ describe('defaultAwsAttributes', function() {
     it('hooks are set properly', function() {
       should.exist(this.defaultAwsAttributes.hooks);
 
-      const hook = this.defaultAwsAttributes.hooks['before:package:finalize'];
+      const hook = this.defaultAwsAttributes.hooks['aws:package:finalize:mergeCustomProviderResources'];
       should.exist(hook);
 
       hook.should.be.a('function');
@@ -66,7 +68,7 @@ describe('defaultAwsAttributes', function() {
         }
       ];
 
-      this.serverless.custom.defaultAwsAttributes = defaults
+      this.service.custom.defaultAwsAttributes = defaults
 
       this.defaultAwsAttributes.getDefaults()
         .should.deep.equal(defaults);
@@ -123,7 +125,7 @@ describe('defaultAwsAttributes', function() {
         }
       };
 
-      this.serverless.custom.defaultAwsAttributes = [
+      this.service.custom.defaultAwsAttributes = [
         {
           Type: 'AWS::S3::Bucket',
           Exclude: [
@@ -133,7 +135,7 @@ describe('defaultAwsAttributes', function() {
         }
       ];
 
-      this.serverless.resources.Resources = {
+      this.service.provider.compiledCloudFormationTemplate.Resources = {
         IgnoredBucket: {
           Type: 'AWS::S3::Bucket',
           Properties: {}
@@ -150,13 +152,13 @@ describe('defaultAwsAttributes', function() {
 
       this.defaultAwsAttributes.addDefaults();
 
-      this.serverless.resources.Resources.IgnoredBucket.Properties
+      this.service.provider.compiledCloudFormationTemplate.Resources.IgnoredBucket.Properties
         .should.not.have.property('BucketEncryption');
 
-      this.serverless.resources.Resources.NotABucket.Properties
+      this.service.provider.compiledCloudFormationTemplate.Resources.NotABucket.Properties
         .should.not.have.property('BucketEncryption');
 
-      this.serverless.resources.Resources.RegularBucket.Properties
+      this.service.provider.compiledCloudFormationTemplate.Resources.RegularBucket.Properties
         .should.deep.include(defaultProperties);
     });
   });

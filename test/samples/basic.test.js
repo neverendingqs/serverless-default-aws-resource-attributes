@@ -16,6 +16,35 @@ describe('samples/basic', function() {
 
         const cfn = require(`${__dirname}/../../samples/basic/.serverless/cloudformation-template-update-stack.json`);
 
+        // Serverless-generated resources are also affected
+        expect(cfn.Resources.ServerlessDeploymentBucket).to.deep.equal({
+          'Type': 'AWS::S3::Bucket',
+          'Properties': {
+            'LoggingConfiguration': {
+              'DestinationBucketName': {
+                'Ref': 'LoggingBucket'
+              }
+            },
+            'BucketEncryption': {
+              'ServerSideEncryptionConfiguration': [
+                {
+                  'ServerSideEncryptionByDefault': {
+                    'SSEAlgorithm': 'AES256'
+                  }
+                }
+              ]
+            },
+            'PublicAccessBlockConfiguration': {
+              'BlockPublicAcls': true,
+              'BlockPublicPolicy': true,
+              'IgnorePublicAcls': true,
+              'RestrictPublicBuckets': true
+            }
+          },
+          'DeletionPolicy': 'Retain'
+        });
+
+        // Non-Serverless-generated resources are also affected
         expect(cfn.Resources.ABucket).to.deep.equal({
           'Type': 'AWS::S3::Bucket',
           'Properties': {
@@ -43,33 +72,7 @@ describe('samples/basic', function() {
           'DeletionPolicy': 'Retain'
         });
 
-        expect(cfn.Resources.ABucket).to.deep.equal({
-          'Type': 'AWS::S3::Bucket',
-          'Properties': {
-            'LoggingConfiguration': {
-              'DestinationBucketName': {
-                'Ref': 'LoggingBucket'
-              }
-            },
-            'BucketEncryption': {
-              'ServerSideEncryptionConfiguration': [
-                {
-                  'ServerSideEncryptionByDefault': {
-                    'SSEAlgorithm': 'AES256'
-                  }
-                }
-              ]
-            },
-            'PublicAccessBlockConfiguration': {
-              'BlockPublicAcls': true,
-              'BlockPublicPolicy': true,
-              'IgnorePublicAcls': true,
-              'RestrictPublicBuckets': true
-            }
-          },
-          'DeletionPolicy': 'Retain'
-        });
-
+        // Test that Exclude works
         expect(cfn.Resources.LoggingBucket).to.deep.equal({
           'Type': 'AWS::S3::Bucket',
           'DeletionPolicy': 'Retain',
