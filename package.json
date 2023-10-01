@@ -1,6 +1,6 @@
 {
   "name": "serverless-default-aws-resource-attributes",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Set default attributes a given CloudFormation resource should have based on type",
   "main": "index.js",
   "scripts": {
@@ -26,13 +26,13 @@
   },
   "homepage": "https://github.com/neverendingqs/serverless-default-aws-resource-attributes#readme",
   "devDependencies": {
-    "chai": "^4.3.7",
+    "chai": "^4.3.10",
     "coveralls": "^3.1.1",
     "cross-spawn": "^7.0.3",
     "mocha": "^10.2.0",
     "nyc": "^15.1.0",
     "publish-me-maybe": "^1.0.12",
-    "sinon": "^15.0.2"
+    "sinon": "^16.0.0"
   },
   "dependencies": {
     "lodash.merge": "^4.6.2"
